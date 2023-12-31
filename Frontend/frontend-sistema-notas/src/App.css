@@ -1,0 +1,125 @@
+.container-app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #0f0f0f;
+  width: 100vw;
+  height: 100vh;
+}
+
+.first-term,
+.second-term,
+.third-term,
+.fourth-term {
+  font-family: "Montserrat";
+  color: #ffffff;
+}
+
+.subject-biologia {
+  background: #cc4090;
+}
+
+.subject-artes {
+  background: #05a2c2;
+}
+
+.subject-geografia {
+  background: #c26719;
+}
+
+.subject-sociologia {
+  background: #9b19c2;
+}
+
+.subject-default {
+  background: #45aa5b;
+}
+
+.chart {
+  display: flex;
+
+  height: 30px;
+  padding: 5px 76px 5px 13.825px;
+  align-items: center;
+
+  background: rgba(15, 15, 15, 0.7);
+  gap: 5px;
+}
+
+.note-spam {
+  font-size: 12px;
+}
+@media screen and (max-width: 500px) {
+  .first-term {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .add {
+    display: flex;
+    gap: 160px;
+    margin-right: 25px;
+  }
+
+  .btn-add {
+    display: flex;
+    width: 58px;
+    height: 37px;
+    padding: 16px 32px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 12px;
+    background-color: #e9ff1a;
+    box-shadow: 0px 20px 60px 0px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+
+  .btn-add span {
+    font-size: 32px;
+  }
+  .box-subject {
+    display: flex;
+    justify-content: flex-start;
+
+    /* background-color: #ecedee; */
+  }
+
+  .trash {
+    /* margin-left: 162px; */
+  }
+
+  .card-subject {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 157px;
+    height: 146px;
+
+    border-radius: 20px;
+  }
+
+  .card-subject-info {
+    margin-left: 12px;
+  }
+
+  .card-subject h1 {
+    color: #ecedee;
+    font-family: "Montserrat";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .card-subject h3 {
+    color: #ecedee;
+    font-family: "Montserrat";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 12px; /* 100% */
+  }
+}
