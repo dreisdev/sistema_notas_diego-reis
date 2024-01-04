@@ -11,10 +11,22 @@ const CreateNotas = async (req: Request, res: Response) => {
 
     try {
 
-        if (!bimestre || !disciplina || !nota) {
+        if (!bimestre) {
 
-            return res.status(400).json({ mensagem: 'Campos obrigatórios para criar Notas: bismestre, disciplina, nota ' });
+            return res.status(400).json({ mensagem: 'Campos obrigatório para criar Disciplina e lançar Notas: bismestre' });
         }
+
+        if (!disciplina) {
+
+            return res.status(400).json({ mensagem: 'Campos obrigatório para criar Diciplina e lançar Notas: disciplina' });
+        }
+
+        if (!nota) {
+
+            return res.status(400).json({ mensagem: 'Campos obrigatório para criar Disciplina e lancar Notas: nota ' });
+        }
+
+
 
         if (nota < 0 || nota > 10) {
 
