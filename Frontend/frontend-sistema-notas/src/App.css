@@ -5,15 +5,42 @@
   align-items: center;
   background-color: #0f0f0f;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .first-term,
 .second-term,
 .third-term,
 .fourth-term {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
   font-family: "Montserrat";
   color: #ffffff;
+  margin-top: 20px;
+}
+
+.title-term {
+  color: #fff;
+
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+
+  white-space: nowrap;
+}
+
+.main-box-subject {
+  display: flex;
+  justify-content: space-between;
+
+  margin-left: 5%;
+  gap: 40px;
 }
 
 .subject-biologia {
@@ -38,6 +65,7 @@
 
 .chart {
   display: flex;
+  justify-content: space-between;
 
   height: 30px;
   padding: 5px 76px 5px 13.825px;
@@ -48,20 +76,191 @@
 }
 
 .note-spam {
+  white-space: nowrap;
   font-size: 12px;
 }
+
+.trash {
+  position: relative;
+  display: inline-block;
+}
+
+.trash::after {
+  content: "Remover";
+  position: absolute;
+  width: 55px;
+  bottom: 60%;
+  left: 10px;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  font-size: 12px;
+
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.trash:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.trash img {
+  max-width: 100%;
+  height: auto;
+  border: 1 px solid #ccc;
+}
+
+.btn-add {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-family: "Montserrat";
+}
+
+.btn-add::after {
+  content: "Adcionar";
+  width: 60px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.btn-add:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.add {
+  display: flex;
+  justify-content: space-between;
+  gap: 200px;
+
+  margin-left: 5%;
+}
+
+.btn-add {
+  display: flex;
+  width: 183px;
+  height: 37px;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px;
+  background-color: #e9ff1a;
+  box-shadow: 0px 20px 60px 0px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.btn-add span {
+  font-size: 16px;
+}
+
+.btn-plus {
+  display: flex;
+
+  color: #0f0f0f;
+
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+span.large-plus {
+  font-size: 32px;
+  margin-left: 10px;
+}
+.box-subject {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.trash {
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+.card-subject {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 157px;
+  height: 146px;
+
+  border-radius: 20px;
+}
+
+.card-subject-info {
+  margin-left: 12px;
+}
+
+.card-subject h1 {
+  color: #ecedee;
+  font-family: "Montserrat";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.card-subject h3 {
+  color: #ecedee;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 12px;
+  margin-left: 2px;
+}
+
 @media screen and (max-width: 500px) {
-  .first-term {
+  .first-term,
+  .second-term,
+  .third-term,
+  .fourth-term {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
   }
 
+  .main-box-subject {
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    margin-left: 5%;
+    margin-right: 5%;
+    gap: 30px;
+  }
+
+  .title-term {
+    color: #fff;
+    font-family: "Montserrat";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+  }
+
   .add {
     display: flex;
-    gap: 160px;
-    margin-right: 25px;
+    gap: 195px;
+    margin-right: 45px;
   }
 
   .btn-add {
@@ -81,15 +280,19 @@
   .btn-add span {
     font-size: 32px;
   }
+
+  span.large-plus {
+    margin-left: 0;
+  }
   .box-subject {
     display: flex;
     justify-content: flex-start;
-
-    /* background-color: #ecedee; */
+    gap: 0;
   }
 
   .trash {
-    /* margin-left: 162px; */
+    margin-left: 2px;
+    cursor: pointer;
   }
 
   .card-subject {
@@ -120,6 +323,54 @@
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
-    line-height: 12px; /* 100% */
+    line-height: 12px;
+    margin-left: 2px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .add {
+    gap: 135px;
+    margin-right: 35px;
+  }
+  .card-subject {
+    width: 113px;
+    height: 113px;
+  }
+
+  .btn-add {
+    width: 29px;
+    height: 18.5px;
+    padding: 14px 22px;
+  }
+
+  .btn-add span {
+    font-size: 20px;
+  }
+
+  .box-subject {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .card-subject h1 {
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .note-spam {
+    white-space: nowrap;
+  }
+
+  .trash::after {
+    bottom: 55%;
+  }
+}
+
+@media screen and(min-width: 501px) {
+  .btn-plus {
+    content: attr(title);
   }
 }

@@ -1,9 +1,58 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-import red_chart from "./assets/red-Chart.png";
+import red_Chart from "./assets/red-Chart.png";
+import yellow_Chart from "./assets/yellow-Chart.png";
+import green_Chart from "./assets/green-Chart.png";
 import trash from "./assets/Trash.png";
 
-function App() {
+import Modal from "./Components/Modal/modal";
+import api from "./Api/fetchData";
+import { NotaData } from "./@types/NotasDataProps";
+
+import { format } from "date-fns";
+import useToast from "./Hooks/useToast";
+
+const App: React.FC = () => {
+  const navigate = useNavigate();
+  const [isWideScreen, setIsWideScreen] = useState<boolean>(false);
+
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [firstTerm, setFirstTerm] = useState<NotaData[]>([]);
+  const [secondTerm, setSecondTerm] = useState<NotaData[]>([]);
+  const [thirdTerm, setThirdTerm] = useState<NotaData[]>([]);
+  const [fourthTerm, setFourthTerm] = useState<NotaData[]>([]);
+
+  const [subjectModal, setSubjectModal] = useState<string>("");
+
+  const openModal = async (term: string) => {
+    setModalOpen(true);
+    setSubjectModal(term);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    fetchDataFilters();
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth > 500);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const getColorSubject = (disciplina: string) => {
     switch (disciplina) {
       case "Biologia":
@@ -20,113 +69,321 @@ function App() {
     }
   };
 
-  const disciplinaFetch = "Biologia";
-  const disciplinaFetch2 = "Artes";
-  const disciplinaFetch3 = "Geografia";
-  const disciplinaFetch4 = "Sociologia";
-  const dataLacamento = "31/12/2023";
-  const nota = 9;
+  const bimestre1 = "Bimestre 1";
+  const bimestre2 = "Bimestre 2";
+  const bimestre3 = "Bimestre 3";
+  const bimestre4 = "Bimestre 4";
+
+  const fetchData = async (): Promise<NotaData[] | undefined> => {
+    try {
+      const response = await api.get("/notas");
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchDataFilters = async () => {
+    try {
+      const result = await fetchData();
+
+      const filterByTerm = (data: NotaData[], targetTerm: string) => {
+        return data.filter((item) => item.bimestre === targetTerm);
+      };
+
+      const firstTermData = filterByTerm(result || [], "PRIMEIRO");
+      setFirstTerm(firstTermData);
+
+      const secondTermData = filterByTerm(result || [], "SEGUNDO");
+      setSecondTerm(secondTermData);
+
+      const thirdTermData = filterByTerm(result || [], "TERCEIRO");
+      setThirdTerm(thirdTermData);
+
+      const fourthTermData = filterByTerm(result || [], "QUARTO");
+      setFourthTerm(fourthTermData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataFilters();
+  }, []);
+
+  const handleDelete = async (subjectId: string) => {
+    try {
+      const response = await api.delete(`/notas/${subjectId}`);
+
+      useToast(response.data.mensagem);
+
+      navigate(`/`);
+      fetchDataFilters();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div className="container-app">
+        <ToastContainer />
         <main className="terms">
           <section className="first-term">
             <div className="add">
-              <h1 className="title-term">Bimestre 1</h1>
+              <h1 className="title-term">{bimestre1}</h1>
 
-              <button className="btn-add">
-                <span>+</span>
+              <button className="btn-add" onClick={() => openModal(bimestre1)}>
+                <span className="btn-plus">
+                  {isWideScreen ? "Lançar Nota" : ""}{" "}
+                  <span className="large-plus">+</span>
+                </span>
               </button>
             </div>
-            <div className="box-subject">
-              <div
-                className={`card-subject ${getColorSubject(disciplinaFetch)}`}
-              >
-                <div className="card-subject-info">
-                  <h1>{disciplinaFetch}</h1>
-                  <h3>{dataLacamento}</h3>
-                </div>
+            <aside className="main-box-subject">
+              {firstTerm.map((item) => (
+                <div className="box-subject" key={item._id}>
+                  <div
+                    className={`card-subject ${getColorSubject(
+                      item.disciplina
+                    )}`}
+                  >
+                    <div className="card-subject-info">
+                      <h1>{item.disciplina}</h1>
+                      <h3>{format(item.createdAt, "dd/MM/yyyy")}</h3>
+                    </div>
 
-                <div className="chart">
-                  <img src={red_chart} alt="grafico nota" />
-                  <span className="note-spam"> Nota: {nota}</span>
+                    <div className="chart">
+                      <img
+                        src={
+                          item.nota < 6
+                            ? red_Chart
+                            : item.nota < 8
+                            ? yellow_Chart
+                            : green_Chart
+                        }
+                        alt="grafico nota"
+                      />
+                      <div className="note-span-div">
+                        <span
+                          className="note-spam"
+                          style={{
+                            color:
+                              item.nota < 6
+                                ? "#FF5964"
+                                : item.nota < 8
+                                ? "#FFFF99"
+                                : "#05FF00",
+                          }}
+                        >
+                          {" "}
+                          {`Nota: ${item.nota}`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="trash" onClick={() => handleDelete(item._id)}>
+                    <img src={trash} alt="toolip" />
+                  </div>
                 </div>
-              </div>
-              <div className="trash">
-                <img src={trash} alt="toolip" />
-              </div>
-            </div>
-            <div className="box-subject">
-              <div
-                className={`card-subject ${getColorSubject(disciplinaFetch2)}`}
-              >
-                <div className="card-subject-info">
-                  <h1>{disciplinaFetch2}</h1>
-                  <h3>{dataLacamento}</h3>
-                </div>
-
-                <div className="chart">
-                  <img src={red_chart} alt="grafico nota" />
-                  <span className="note-spam"> Nota: {nota}</span>
-                </div>
-              </div>
-              <div className="trash">
-                <img src={trash} alt="toolip" />
-              </div>
-            </div>
-            <div className="box-subject">
-              <div
-                className={`card-subject ${getColorSubject(disciplinaFetch3)}`}
-              >
-                <div className="card-subject-info">
-                  <h1>{disciplinaFetch3}</h1>
-                  <h3>{dataLacamento}</h3>
-                </div>
-
-                <div className="chart">
-                  <img src={red_chart} alt="grafico nota" />
-                  <span className="note-spam"> Nota: {nota}</span>
-                </div>
-              </div>
-              <div className="trash">
-                <img src={trash} alt="toolip" />
-              </div>
-            </div>
-            <div className="box-subject">
-              <div
-                className={`card-subject ${getColorSubject(disciplinaFetch4)}`}
-              >
-                <div className="card-subject-info">
-                  <h1>{disciplinaFetch4}</h1>
-                  <h3>{dataLacamento}</h3>
-                </div>
-
-                <div className="chart">
-                  <img src={red_chart} alt="grafico nota" />
-                  <span className="note-spam"> Nota: {nota}</span>
-                </div>
-              </div>
-              <div className="trash">
-                <img src={trash} alt="toolip" />
-              </div>
-            </div>
+              ))}
+            </aside>
           </section>
 
           <section className="second-term">
-            <h1 className="title-term">Bimestre 2</h1>
+            <div className="add">
+              <h1 className="title-term">{bimestre2}</h1>
+
+              <button className="btn-add" onClick={() => openModal(bimestre2)}>
+                <span className="btn-plus">
+                  {isWideScreen ? "Lançar Nota" : ""}{" "}
+                  <span className="large-plus">+</span>
+                </span>
+              </button>
+            </div>
+            <aside className="main-box-subject">
+              {secondTerm.map((item) => (
+                <div className="box-subject" key={item._id}>
+                  <div
+                    className={`card-subject ${getColorSubject(
+                      item.disciplina
+                    )}`}
+                  >
+                    <div className="card-subject-info">
+                      <h1>{item.disciplina}</h1>
+                      <h3>{format(item.createdAt, "dd/MM/yyyy")}</h3>
+                    </div>
+
+                    <div className="chart">
+                      <img
+                        src={
+                          item.nota < 6
+                            ? red_Chart
+                            : item.nota < 8
+                            ? yellow_Chart
+                            : green_Chart
+                        }
+                        alt="grafico nota"
+                      />
+                      <div className="note-span-div">
+                        <span
+                          className="note-spam"
+                          style={{
+                            color:
+                              item.nota < 6
+                                ? "#FF5964"
+                                : item.nota < 8
+                                ? "#FFFF99"
+                                : "#05FF00",
+                          }}
+                        >
+                          {" "}
+                          {`Nota: ${item.nota}`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="trash" onClick={() => handleDelete(item._id)}>
+                    <img src={trash} alt="toolip" />
+                  </div>
+                </div>
+              ))}
+            </aside>
           </section>
 
           <section className="third-term">
-            <h1 className="title-term">Bimestre 3</h1>
+            <div className="add">
+              <h1 className="title-term">{bimestre3}</h1>
+
+              <button className="btn-add" onClick={() => openModal(bimestre3)}>
+                <span className="btn-plus">
+                  {isWideScreen ? "Lançar Nota" : ""}{" "}
+                  <span className="large-plus">+</span>
+                </span>
+              </button>
+            </div>
+            <aside className="main-box-subject">
+              {thirdTerm.map((item) => (
+                <div className="box-subject" key={item._id}>
+                  <div
+                    className={`card-subject ${getColorSubject(
+                      item.disciplina
+                    )}`}
+                  >
+                    <div className="card-subject-info">
+                      <h1>{item.disciplina}</h1>
+                      <h3>{format(item.createdAt, "dd/MM/yyyy")}</h3>
+                    </div>
+
+                    <div className="chart">
+                      <img
+                        src={
+                          item.nota < 6
+                            ? red_Chart
+                            : item.nota < 8
+                            ? yellow_Chart
+                            : green_Chart
+                        }
+                        alt="grafico nota"
+                      />
+                      <div className="note-span-div">
+                        <span
+                          className="note-spam"
+                          style={{
+                            color:
+                              item.nota < 6
+                                ? "#FF5964"
+                                : item.nota < 8
+                                ? "#FFFF99"
+                                : "#05FF00",
+                          }}
+                        >
+                          {" "}
+                          {`Nota: ${item.nota}`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="trash" onClick={() => handleDelete(item._id)}>
+                    <img src={trash} alt="toolip" />
+                  </div>
+                </div>
+              ))}
+            </aside>
           </section>
 
           <section className="fourth-term">
-            <h1 className="title-term">Bimestre 4</h1>
+            <div className="add">
+              <h1 className="title-term">{bimestre4}</h1>
+
+              <button className="btn-add" onClick={() => openModal(bimestre4)}>
+                <span className="btn-plus">
+                  {isWideScreen ? "Lançar Nota" : ""}{" "}
+                  <span className="large-plus">+</span>
+                </span>
+              </button>
+            </div>
+            <aside className="main-box-subject">
+              {fourthTerm.map((item) => (
+                <div className="box-subject" key={item._id}>
+                  <div
+                    className={`card-subject ${getColorSubject(
+                      item.disciplina
+                    )}`}
+                  >
+                    <div className="card-subject-info">
+                      <h1>{item.disciplina}</h1>
+                      <h3>{format(item.createdAt, "dd/MM/yyyy")}</h3>
+                    </div>
+
+                    <div className="chart">
+                      <img
+                        src={
+                          item.nota < 6
+                            ? red_Chart
+                            : item.nota < 8
+                            ? yellow_Chart
+                            : green_Chart
+                        }
+                        alt="grafico nota"
+                      />
+                      <div className="note-span-div">
+                        <span
+                          className="note-spam"
+                          style={{
+                            color:
+                              item.nota < 6
+                                ? "#FF5964"
+                                : item.nota < 8
+                                ? "#FFFF99"
+                                : "#05FF00",
+                          }}
+                        >
+                          {" "}
+                          {`Nota: ${item.nota}`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="trash" onClick={() => handleDelete(item._id)}>
+                    <img src={trash} alt="toolip" />
+                  </div>
+                </div>
+              ))}
+            </aside>
           </section>
+          <div className="modal-terms">
+            <Modal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              bimestre={subjectModal}
+            />
+          </div>
         </main>
       </div>
     </>
   );
-}
+};
 
 export default App;
