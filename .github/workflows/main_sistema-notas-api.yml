@@ -69,7 +69,6 @@ jobs:
 
       - name: Run commands after publish
         run: |
-          cd /home/site/wwwroot
           npm install --production
           pwd
           node ./dist/app.js
