@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - maoamiga
+name: Build and deploy Node.js app to Azure Web App - sistema-notas
 
 on:
   push:
@@ -16,10 +16,11 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: "14.x"
+          node-version: "20.x"
 
       - name: npm install, build, and test
         run: |
+          cd sistema_notas_diego-reis/Backend
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -29,13 +30,13 @@ jobs:
           mkdir -p deployment-package
           cp -R ./dist/* deployment-package
           zip -r deployment-package.zip deployment-package
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/sistema_notas_diego-reis
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: deployment-package
-          path: deployment-package.zip
+          path: sistema_notas_diego-reis/deployment-package.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,12 +51,12 @@ jobs:
           name: deployment-package
 
       - name: Unzip artifact for deployment
-        run: unzip deployment-package.zip -d .
+        run: unzip sistema_notas_diego-reis/deployment-package.zip -d .
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "sistema-notas-api"
+          app-name: "sistema-notas-api" # Substitua pelo nome correto do seu aplicativo no Azure
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC07F015938946668094C37EDA285609 }}
-          package: ./dist
+          package: ./sistema_notas_diego-reis
