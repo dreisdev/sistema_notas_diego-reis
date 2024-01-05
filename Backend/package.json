@@ -4,7 +4,7 @@
   "description": "Sistema de Notas - Para lançamento de Notas.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node ./src/app.ts",
+    "dev": "nodemon --exec ts-node ./app.ts",
     "build": "rm -rf ./dist && tsc",
     "start": "node ./dist/app.js"
   },

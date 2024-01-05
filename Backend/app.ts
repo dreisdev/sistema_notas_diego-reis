@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 
 import rotas from './routes';
 
-import database from './database/connection';
+import database from './src/database/connection';
 
 
 
@@ -28,7 +28,7 @@ app.use(
 );
 
 
-app.use(async (req, res, next) => {
+app.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         await database();

@@ -1,5 +1,5 @@
-import express, { Request, Response } from 'express';
-import { CreateNotas, DeleteNotas, GetAllNotas, UpdateNotas } from './controllers/Notas/notasEndpoint';
+import express from 'express';
+import { CreateNotas, DeleteNotas, GetAllNotas, UpdateNotas } from './src/controllers/Notas/notasEndpoint';
 const rotas = express();
 
 rotas.use(express.json());

@@ -1,14 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "lib": [
-      "ES2018"
-    ],
+    "lib": ["ES2018"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "typeRoots": [
-      "./src/@types"
-    ],
+    "typeRoots": ["./src/@types"],
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "./dist",
@@ -18,11 +14,6 @@
     "noImplicitAny": true,
     "skipLibCheck": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*", "app.ts", "routes.ts"],
+  "exclude": ["node_modules", "dist"]
 }
