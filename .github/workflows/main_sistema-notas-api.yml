@@ -50,6 +50,9 @@ jobs:
         with:
           name: deployment-package
 
+      - name: List files in current directory
+        run: ls -R
+
       - name: Unzip artifact for deployment
         run: unzip Backend/deployment-package.zip -d .
 
