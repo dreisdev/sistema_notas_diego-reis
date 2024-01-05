@@ -57,7 +57,7 @@ jobs:
         run: unzip deployment_package.zip
 
       - name: List files before deploy
-        run: ls -R ./Backend
+        run: ls -R ..
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
@@ -65,4 +65,4 @@ jobs:
         with:
           app-name: "sistema-notas-api" # Substitua pelo nome correto do seu aplicativo no Azure
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC07F015938946668094C37EDA285609 }}
-          package: ./Backend/deployment_package.zip
+          package: ../Backend/deployment_package.zip/deployment_package
