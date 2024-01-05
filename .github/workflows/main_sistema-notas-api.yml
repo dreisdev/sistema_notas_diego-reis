@@ -62,4 +62,4 @@ jobs:
         with:
           app-name: "sistema-notas-api" # Substitua pelo nome correto do seu aplicativo no Azure
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC07F015938946668094C37EDA285609 }}
-          package: ./Backend/dist
+          package: ./Backend/deployment_package.zip
