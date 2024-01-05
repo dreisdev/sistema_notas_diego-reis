@@ -54,7 +54,7 @@ jobs:
         run: ls -R
 
       - name: Unzip artifact for deployment
-        run: unzip Backend/deployment_package.zip
+        run: unzip deployment_package.zip
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
