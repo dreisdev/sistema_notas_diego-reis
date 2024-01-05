@@ -27,16 +27,16 @@ jobs:
 
       - name: Create deployment package
         run: |
-          mkdir -p deployment-package
-          cp -R ./dist/* deployment-package
-          zip -r deployment-package.zip deployment-package
+          mkdir -p deployment_package
+          cp -R ./dist/* deployment_package
+          zip -r deployment_package.zip deployment_package
         working-directory: ${{ github.workspace }}/Backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: deployment-package
-          path: Backend/deployment-package.zip
+          name: deployment_package
+          path: Backend/deployment_package.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,13 +48,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: deployment-package
+          name: deployment_package
 
       - name: List files in current directory
         run: ls -R
 
       - name: Unzip artifact for deployment
-        run: unzip Backend/deployment-package.zip
+        run: unzip Backend/deployment_package.zip
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
