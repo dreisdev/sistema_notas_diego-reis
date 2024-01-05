@@ -66,9 +66,3 @@ jobs:
           app-name: "sistema-notas-api" # Substitua pelo nome correto do seu aplicativo no Azure
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC07F015938946668094C37EDA285609 }}
           package: ../sistema_notas_diego-reis/deployment_package
-
-      - name: Run commands after publish
-        run: |
-          npm install --production
-          pwd
-          node ./dist/app.js
