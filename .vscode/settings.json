@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/621e13f2-076b-4f14-b41c-b7a53ca71367/resourceGroups/sistema_notas/providers/Microsoft.Web/sites/sistema-notas-api",
+    "appService.deploySubpath": "Backend\\dist"
+}
