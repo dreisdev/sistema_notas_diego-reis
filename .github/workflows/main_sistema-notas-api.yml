@@ -30,7 +30,7 @@ jobs:
           mkdir -p deployment-package
           cp -R ./dist/* deployment-package
           zip -r deployment-package.zip deployment-package
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/Backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
