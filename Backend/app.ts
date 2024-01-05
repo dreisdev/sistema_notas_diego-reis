@@ -16,7 +16,7 @@ import cors from 'cors';
 
 const allowedOrigins = [
 
-    "*",
+    "https://main--sistema-notas-dr.netlify.app/",
 ];
 
 app.use(
