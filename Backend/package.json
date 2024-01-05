@@ -2,11 +2,11 @@
   "name": "sistema_notas_diego-reis",
   "version": "1.0.0",
   "description": "Sistema de Notas - Para lançamento de Notas.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon --exec ts-node ./app.ts",
-    "build": "rm -rf ./dist && tsc",
-    "start": "node ./dist/app.js"
+    "build": "rm -rf ./dist && tsc && npm install --production",
+    "start": "npm install --production && pwd && node ./dist/app.js"
   },
   "keywords": [],
   "author": "",
