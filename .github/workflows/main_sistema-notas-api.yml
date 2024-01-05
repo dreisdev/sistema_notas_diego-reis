@@ -20,7 +20,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          cd sistema_notas_diego-reis
+          cd Backend
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -30,7 +30,7 @@ jobs:
           mkdir -p deployment-package
           cp -R ./dist/* deployment-package
           zip -r deployment-package.zip deployment-package
-        working-directory: ${{ github.workspace }}/sistema_notas_diego-reis
+        working-directory: ${{ github.workspace }}/Backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -59,4 +59,4 @@ jobs:
         with:
           app-name: "sistema-notas-api" # Substitua pelo nome correto do seu aplicativo no Azure
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC07F015938946668094C37EDA285609 }}
-          package: ./sistema_notas_diego-reis
+          package: ./dist
