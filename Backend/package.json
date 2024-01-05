@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node ./src/app.ts",
-    "build": "rmdir /s /q dist && tsc",
+    "build": "rm -rf ./dist && tsc",
     "start": "node ./dist/app.js"
   },
   "keywords": [],
