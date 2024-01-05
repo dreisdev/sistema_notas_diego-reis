@@ -35,7 +35,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: deployment-package
+          name: sistema-notas-deployment-package
           path: sistema_notas_diego-reis/deployment-package.zip
 
   deploy:
@@ -48,7 +48,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: deployment-package
+          name: sistema-notas-deployment-package
 
       - name: Unzip artifact for deployment
         run: unzip sistema_notas_diego-reis/deployment-package.zip -d .
