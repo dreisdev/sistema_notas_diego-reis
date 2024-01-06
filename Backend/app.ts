@@ -17,7 +17,7 @@ import cors from 'cors';
 const allowedOrigins = [
 
     "http://localhost:5173",
-    "https://gerenciamento-notas.netlify.app/",
+    "https://gerenciamento-notas.netlify.app",
 
 ];
 
