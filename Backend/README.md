@@ -1,7 +1,5 @@
 # Sistema de Notas API
 
-Uma breve descrição do projeto aqui.
-
 ## 🔥 Introdução
 
 Bem-vindo ao README da API do Sistema de Notas. Esta API foi desenvolvida usando o framework Express.js e MongoDB com o auxílio do mongoose para interação com o banco de dados. A API fornece operações CRUD (Create, Read, Update, Delete) para gerenciar notas de estudantes em diferentes disciplinas e bimestres.
@@ -59,16 +57,6 @@ npm start
 ## 📄 Licença
 
 Esse projeto está sob a licença (MIT LICENSE)
-
-## 💭 FAQ - Perguntas frequentes
-
-#### Questão 1
-
-Resposta 1
-
-#### Questão 2
-
-Resposta 2
 
 ## 💡 Contato
 
