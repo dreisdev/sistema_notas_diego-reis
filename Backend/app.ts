@@ -16,7 +16,9 @@ import cors from 'cors';
 
 const allowedOrigins = [
 
-    "*",
+    "http://localhost:5173",
+    "https://extraordinary-semolina-953246.netlify.app/",
+    "https://sistema-notas-dr.netlify.app/",
 ];
 
 app.use(
